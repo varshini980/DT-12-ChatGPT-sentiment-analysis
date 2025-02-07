@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from textblob import TextBlob
-
+with open("sentiment_model.pkl", "rb") as model_file:
+    model = pickle.load(model_file)
 app = Flask(__name__)
 
 @app.route("/")
@@ -9,25 +10,15 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    return render_template("predict.html")
+def analyze():
     data = request.get_json()
-    text = data.get("text", "")
+    text = data["text"]
+    
+    
+    # Predict sentiment
+    sentiment = model.predict(text)[0]
 
-    if not text.strip():
-        return jsonify({"sentiment": "Neutral 😐", "color": "neutral"})
-
-    # Perform sentiment analysis
-    analysis = TextBlob(text)
-    if analysis.sentiment.polarity > 0:
-        sentiment = "Positive 😊"
-        color = "positive"
-    elif analysis.sentiment.polarity < 0:
-        sentiment = "Negative 😞"
-        color = "negative"
-    else:
-        sentiment = "Neutral 😐"
-        color = "neutral"
-
-    return jsonify({"sentiment": sentiment, "color": color})
-
+    return jsonify({"sentiment": sentiment})
 if __name__ == "__main__":
     app.run(debug=True)
