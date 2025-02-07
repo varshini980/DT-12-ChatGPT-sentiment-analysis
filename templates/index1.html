@@ -3,131 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT Sentiment Analysis</title>
+    <title>Sentiment Analysis</title>
     <style>
-        /* Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Courier New', monospace;
         }
 
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
+            background: #020c1b;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            position: relative;
+            color: #ffffff;
+        }
+
+        /* Background Animation - Flowing Matrix Code */
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .code {
+            position: absolute;
+            white-space: nowrap;
+            color: rgba(17, 236, 17, 0.8);
+            font-weight: bold;
+            font-size: 16px;
+            text-shadow: 0px 0px 8px rgba(11, 211, 11, 0.8);
+            animation: moveCode 8s linear infinite;
+        }
+
+        @keyframes moveCode {
+            0% { transform: translateY(100vh); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
 
         .container {
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px 60px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 255, 0, 0.3);
             text-align: center;
-            width: 450px;
+            max-width: 400px;
+            width: 100%;
+            z-index: 2;
             backdrop-filter: blur(10px);
         }
 
         h1 {
+            color: #e3f2e3;
             margin-bottom: 20px;
             font-size: 24px;
-            font-weight: bold;
+            text-shadow: 0px 0px 8px #e4ede4;
         }
 
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            resize: none;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        button {
-            margin-top: 15px;
+        .submit-btn {
             padding: 12px 25px;
-            border: none;
-            background: linear-gradient(90deg, #ffcc00, #ff9900);
+            background-color: #1beba9;
             color: black;
-            font-weight: bold;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 8px;
-            transition: 0.3s;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
-        }
-
-        button:hover {
-            background: linear-gradient(90deg, #ff9900, #ff6600);
-            box-shadow: 0 6px 15px rgba(255, 153, 0, 0.6);
-        }
-
-        #result {
-            margin-top: 20px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            color: #ffcc00;
-            transition: 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0px 0px 10px rgba(222, 227, 222, 0.7);
         }
 
-        .positive { color: #00ff00; }
-        .negative { color: #ff0000; }
-        .neutral { color: #ffcc00; }
+        .submit-btn:hover {
+            background-color: #00cc00;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>ChatGPT Sentiment Analysis</h1>
-        <textarea id="inputText" placeholder="Enter text for sentiment analysis..."></textarea>
-        <button onclick="analyzeSentiment()">Analyze Sentiment</button>
-        <div id="result"></div>
-    </div>
 
-    <script>
-        function analyzeSentiment() {
-            let text = document.getElementById("inputText").value.trim();
-            let resultDiv = document.getElementById("result");
-    
-            if (text === "") {
-                resultDiv.innerHTML = "Please enter some text!";
-                resultDiv.className = "neutral";
-                return;
-            }
-    
-            // Send data to the backend
-            fetch("/predict", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ text: text })
-            })
-            .then(response => response.json())
-            .then(data => {
-                resultDiv.innerHTML = `Sentiment: <strong>${data.sentiment}</strong>`;
-                resultDiv.className = data.color;
-            })
-            .catch(error => {
-                resultDiv.innerHTML = "Error analyzing sentiment.";
-                resultDiv.className = "neutral";
-            });
+<div class="background"></div>
+
+<div class="container">
+    <h1>Sentiment Analysis</h1>
+    <button class="submit-btn" onclick="analyzeSentiment()">Analyze Sentiment</button>
+</div>
+
+<script>
+    function analyzeSentiment() {
+        window.location.href = "/predict";
+    }
+
+    // Generate floating glowing technical code
+    function createCodeLines() {
+        const background = document.querySelector('.background');
+        const codeSnippets = [
+            "def analyze_sentiment(text): return 'Positive'",
+            "if (sentiment === 'postive') alert('😁');",
+            "if (sentiment === 'neutral') alert('😐');",
+            "if (sentiment === 'negative') alert('😠');",
+            "fetch('/api/analyze').then(res => res.json());",
+            "System.out.println('Sentiment Analysis in Progress...');",
+            "trainModel(dataset, labels, epochs=100);",
+            "console.log('Machine Learning Activated');",
+            "let mood = analyzeMood(userInput);",
+            "sentiment = neuralNetwork.predict(text);"
+        ];
+
+        for (let i = 0; i < 15; i++) {
+            let codeLine = document.createElement('div');
+            codeLine.classList.add('code');
+            codeLine.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            codeLine.style.left = Math.random() * 100 + "vw";
+            codeLine.style.animationDuration = (Math.random() * 4 + 6) + "s"; // 6s - 10s
+            codeLine.style.animationDelay = Math.random() * 3 + "s"; // Random start delay
+            background.appendChild(codeLine);
         }
-    </script>
+    }
     
+    createCodeLines();
+</script>
+
 </body>
 </html>
