@@ -7,27 +7,31 @@ app = Flask(__name__)
 def home():
     return render_template('index1.html')
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
-    data = request.get_json()
-    text = data.get("text", "")
+    if request.method == "GET":
+        return render_template("predict.html")
+    elif request.method == "POST":
+        data = request.get_json()
+        text = data.get("text", "")
 
-    if not text.strip():
-        return jsonify({"sentiment": "Neutral 😐", "color": "neutral"})
+        if not text.strip():
+            return jsonify({"sentiment": "Neutral 😐", "color": "neutral"})
 
-    # Perform sentiment analysis
-    analysis = TextBlob(text)
-    if analysis.sentiment.polarity > 0:
-        sentiment = "Positive 😊"
-        color = "positive"
-    elif analysis.sentiment.polarity < 0:
-        sentiment = "Negative 😞"
-        color = "negative"
-    else:
-        sentiment = "Neutral 😐"
-        color = "neutral"
+        # Perform sentiment analysis
+        analysis = TextBlob(text)
+        if analysis.sentiment.polarity > 0:
+            sentiment = "Positive 😊"
+            color = "positive"
+        elif analysis.sentiment.polarity < 0:
+            sentiment = "Negative 😞"
+            color = "negative"
+        else:
+            sentiment = "Neutral 😐"
+            color = "neutral"
 
-    return jsonify({"sentiment": sentiment, "color": color})
+        return jsonify({"sentiment": sentiment, "color": color})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Use a different port (5001) to avoid conflicts
+    app.run(debug=True, host="0.0.0.0", port=5001)

@@ -67,7 +67,18 @@
             text-shadow: 0px 0px 8px #e4ede4;
         }
 
-        .submit-btn {
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            resize: none;
+        }
+
+        button {
+            margin-top: 15px;
             padding: 12px 25px;
             background-color: #1beba9;
             color: black;
@@ -80,57 +91,50 @@
             box-shadow: 0px 0px 10px rgba(222, 227, 222, 0.7);
         }
 
-        .submit-btn:hover {
+        button:hover {
             background-color: #00cc00;
             transform: scale(1.05);
         }
-
     </style>
 </head>
 <body>
+    <div class="background"></div>
+    <div class="container">
+        <h1>Sentiment Analysis</h1>
+        <form action="/predict" method="post">
+            <textarea name="message" placeholder="Enter your message here..."></textarea>
+            <br>
+            <button type="submit">Know Sentiment</button>
+        </form>
+    </div>
 
-<div class="background"></div>
+    <script>
+        function createCodeLines() {
+            const background = document.querySelector('.background');
+            const codeSnippets = [
+                "def analyze_sentiment(text): return 'Positive'",
+                "if (sentiment === 'positive') alert('😁');",
+                "if (sentiment === 'neutral') alert('😐');",
+                "if (sentiment === 'negative') alert('😠');",
+                "fetch('/api/analyze').then(res => res.json());",
+                "System.out.println('Sentiment Analysis in Progress...');",
+                "trainModel(dataset, labels, epochs=100);",
+                "console.log('Machine Learning Activated');",
+                "let mood = analyzeMood(userInput);",
+                "sentiment = neuralNetwork.predict(text);"
+            ];
 
-<div class="container">
-    <h1>Sentiment Analysis</h1>
-    <button class="submit-btn" onclick="analyzeSentiment()">Analyze Sentiment</button>
-</div>
-
-<script>
-    function analyzeSentiment() {
-        window.location.href = "/predict";
-    }
-
-    // Generate floating glowing technical code
-    function createCodeLines() {
-        const background = document.querySelector('.background');
-        const codeSnippets = [
-            
-            "def analyze_sentiment(text): return 'Positive'",
-            "if (sentiment === 'postive') alert('😁');",
-            "if (sentiment === 'neutral') alert('😐');",
-            "if (sentiment === 'negative') alert('😠');",
-            "fetch('/api/analyze').then(res => res.json());",
-            "System.out.println('Sentiment Analysis in Progress...');",
-            "trainModel(dataset, labels, epochs=100);",
-            "console.log('Machine Learning Activated');",
-            "let mood = analyzeMood(userInput);",
-            "sentiment = neuralNetwork.predict(text);"
-        ];
-
-        for (let i = 0; i < 15; i++) {
-            let codeLine = document.createElement('div');
-            codeLine.classList.add('code');
-            codeLine.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-            codeLine.style.left = Math.random() * 100 + "vw";
-            codeLine.style.animationDuration = (Math.random() * 4 + 6) + "s"; // 6s - 10s
-            codeLine.style.animationDelay = Math.random() * 3 + "s"; // Random start delay
-            background.appendChild(codeLine);
+            for (let i = 0; i < 15; i++) {
+                let codeLine = document.createElement('div');
+                codeLine.classList.add('code');
+                codeLine.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                codeLine.style.left = Math.random() * 100 + "vw";
+                codeLine.style.animationDuration = (Math.random() * 4 + 6) + "s";
+                codeLine.style.animationDelay = Math.random() * 3 + "s";
+                background.appendChild(codeLine);
+            }
         }
-    }
-    
-    createCodeLines();
-</script>
-
+        createCodeLines();
+    </script>
 </body>
 </html>
