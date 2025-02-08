@@ -1,33 +1,32 @@
-from flask import Flask, render_template, request, jsonify
-from textblob import TextBlob
+from flask import Flask, render_template, request
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 @app.route("/")
 def home():
-    return render_template('index1.html')
+    return render_template("index.html")
+
+@app.route("/predict_page")
+def predict_page():
+    return render_template("predict.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
-    text = data.get("text", "")
+    text = request.form.get("text", "")
 
     if not text.strip():
-        return jsonify({"sentiment": "Neutral 😐", "color": "neutral"})
-
-    # Perform sentiment analysis
-    analysis = TextBlob(text)
-    if analysis.sentiment.polarity > 0:
-        sentiment = "Positive 😊"
-        color = "positive"
-    elif analysis.sentiment.polarity < 0:
-        sentiment = "Negative 😞"
-        color = "negative"
-    else:
         sentiment = "Neutral 😐"
-        color = "neutral"
+    else:
+        from textblob import TextBlob
+        analysis = TextBlob(text)
+        if analysis.sentiment.polarity > 0:
+            sentiment = "Positive 😊"
+        elif analysis.sentiment.polarity < 0:
+            sentiment = "Negative 😞"
+        else:
+            sentiment = "Neutral 😐"
 
-    return jsonify({"sentiment": sentiment, "color": color})
+    return render_template("predict.html", sentiment=sentiment, user_text=text)
 
 if __name__ == "__main__":
     app.run(debug=True)
