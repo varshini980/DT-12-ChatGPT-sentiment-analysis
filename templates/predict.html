@@ -135,14 +135,14 @@
     <div class="container">
         <h1>Enter Your Message</h1>
         
-            <input type="text" name="message" placeholder="Type your message here..." required>
+            <input type="text" id="message" placeholder="Type your message here..." required>
             <button onclick="analyzeSentiment()">Know Sentiment</button>
             <div id="result"></div>
         
     </div>
     <script>
         function analyzeSentiment() {
-            let text = document.getElementById("textInput").value;
+            let text = document.getElementById("message").value;
             if (!text) {
                 alert("Please enter text.");
                 return;
