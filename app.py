@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify  
 from textblob import TextBlob
+from test import TextToNum
+import pickle
 
 app = Flask(__name__)
 
@@ -9,28 +11,30 @@ def home():
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
-    if request.method == "GET":
+    if request.method == "POST":
+        msg=request.form.get("message")
+        print(msg)
+        ob=TextToNum(msg)
+        ob.cleaner()
+        ob.token()
+        ob.removeStop()
+        st=ob.stemme()
+        with open("vectorizer.pickle",'rb') as vcfile:
+            vc=pickle.load(vcfile)
+        stvc=" ".join(st)
+        data=vc.transform([stvc])
+        print(data)
+        with open("model.pickle",'rb') as mbfile:
+            model=pickle.load(mbfile)
+        pred=model.predict(data)
+        return jsonify({"result":str(pred[0])})
+
+
+
+    else:
         return render_template("predict.html")
-    elif request.method == "POST":
-        data = request.get_json()
-        text = data.get("text", "")
 
-        if not text.strip():
-            return jsonify({"sentiment": "Neutral 😐", "color": "neutral"})
-
-        # Perform sentiment analysis
-        analysis = TextBlob(text)
-        if analysis.sentiment.polarity > 0:
-            sentiment = "Positive 😊"
-            color = "positive"
-        elif analysis.sentiment.polarity < 0:
-            sentiment = "Negative 😞"
-            color = "negative"
-        else:
-            sentiment = "Neutral 😐"
-            color = "neutral"
-
-        return jsonify({"sentiment": sentiment, "color": color})
+    
 
 if __name__ == "__main__":
     # Use a different port (5001) to avoid conflicts
