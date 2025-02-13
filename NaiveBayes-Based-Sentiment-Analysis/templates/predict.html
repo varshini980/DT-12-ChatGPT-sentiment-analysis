@@ -147,7 +147,7 @@
                 alert("Please enter text.");
                 return;
             }
-
+        
             fetch("/analyze", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -155,13 +155,18 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("result").innerHTML = `Sentiment: <strong>${data.sentiment}</strong>`;
+                if (data.error) {
+                    document.getElementById("result").innerHTML = `<span style="color:red;">Error: ${data.error}</span>`;
+                } else {
+                    document.getElementById("result").innerHTML = `Sentiment: <strong>${data.sentiment}</strong>`;
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("result").innerHTML = "Error analyzing sentiment.";
+                document.getElementById("result").innerHTML = `<span style="color:red;">Error analyzing sentiment.</span>`;
             });
         }
+        
     </script>
 </body>
 </html>
