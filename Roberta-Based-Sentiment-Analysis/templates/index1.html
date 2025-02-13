@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Sentiment Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Background Animation */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
+            background-size: 300% 300%;
+            animation: backgroundShift 10s infinite linear;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Container */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 450px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Container Glow Effect */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 10%, transparent 80%);
+            animation: pulseGlow 6s infinite linear;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: rotate(0deg); opacity: 0.3; }
+            50% { transform: rotate(180deg); opacity: 0.5; }
+            100% { transform: rotate(360deg); opacity: 0.3; }
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Animated Button */
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            background: linear-gradient(90deg, #ffcc00, #ff9900);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-50%) scale(0);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        button:hover::after {
+            transform: translateX(-50%) scale(1);
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #ff9900, #ff6600);
+            box-shadow: 0 6px 15px rgba(255, 153, 0, 0.6);
+        }
+
+        /* Result Text */
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .positive { color: #00ff00; }
+        .negative { color: #ff0000; }
+        .neutral { color: #ffcc00; }
+
+        .show-result {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ChatGPT Sentiment Analysis</h1>
+        <form action="/predict" method="POST">
+            <button type="submit">Analyze Sentiment</button>
+        </form>
+        
+    </div>
+
+   
+</body>
+</html>
