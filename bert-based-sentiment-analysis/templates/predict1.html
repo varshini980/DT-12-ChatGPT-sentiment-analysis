@@ -101,11 +101,11 @@
     <div class="background"></div>
     <div class="container">
         <h1>Sentiment Analysis</h1>
-        <form action="/predict" method="post">
-            <textarea name="message" placeholder="Enter your message here..."></textarea>
+       
+            <textarea id="message" placeholder="Enter your message here..."></textarea>
             <br>
-            <button type="submit" onclick="analyzeSentiment">Know Sentiment</button>
-        </form>
+            <button type="submit" onclick="analyzeSentiment()">Know Sentiment</button>
+            <div id="result"></div>
     </div>
 
     <script>
